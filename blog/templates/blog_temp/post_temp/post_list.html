@@ -1,0 +1,17 @@
+{% extends 'blog_temp/base.html' %}{% load additional_template_tags %}
+{% block title%}My blog{% endblock %}
+{% block main-content %} 
+	<h1>My Blog</h1>
+	{% if tag %}
+		<h2>Posts filtered by tag "{{tag.name}}"</h2>
+	{% endif %}
+	{% for post in posts %}
+		<h2>
+			<a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+		</h2>
+		<p class="date">Published {{ post.publish }} by {{ post.autor }}</p>
+		{{ post.body|markdown|truncatewords_html:30 }}
+		{% if post.tags.all %}<p class="tags">Tags: {{post.tags.all|join:', '}}</p>{% endif %}
+	{% endfor %}
+	{% include "pagination.html" with page=posts %}
+{% endblock %}

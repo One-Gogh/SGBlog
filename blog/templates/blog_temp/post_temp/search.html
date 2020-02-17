@@ -1,0 +1,27 @@
+{% extends 'blog_temp/base.html' %}
+
+{% block title %}Searh post{% endblock %}
+
+{% block main-content %}
+	{% if query %}
+		{% with results.count as total_results %}
+			<p>Found {{total_results}} result{{total_results|pluralize}}</p>
+		{% endwith %}
+		{% for post in results %}
+			<div class="post">
+				<p><a href="{{post.get_absolute_url}}">{{post.title}}</a></p>
+				<p>{{post.body|truncatewords:10}}</p>
+			</div>
+		{% endfor %}
+		<form action="." method="get">
+			{{form.as_p}}
+			<input type="submit" value="Search">
+		</form>
+	{% else %}
+		<form action="." method="get">
+			{{form.as_p}}
+			<input type="submit" value="Search">
+		</form>
+	{% endif %}
+
+{% endblock %}

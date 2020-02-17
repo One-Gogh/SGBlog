@@ -1,0 +1,30 @@
+{% load static %}
+{% load additional_template_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}">
+</head>
+<body>
+	<h2>Total posts in blog {% get_total_posts %}</h2>
+	<div id='main-content'>
+		{% block main-content %}{% endblock %}
+	</div>
+	<div id='sidebar'>
+		{% block sidebar %}{% endblock %}
+		<h3 id="latest_posts">Latest posts</h3>{% get_latest_posts %}
+		<h3 id="most_commented_posts">Most commented posts</h3>
+		{% get_most_commented_posts as most_commented_posts %}
+		<ul>
+			{% for post in most_commented_posts %}
+				<li><a href='{{post.get_absolute_url}}'>{{post.title}}</a></li>
+			{% endfor%}
+		</ul>
+		<div id="feed">
+			<p><a href="{% url 'latest_posts_feed' %}">RSS</a></p>
+		</div>
+	</div>
+</body>
+</html>
